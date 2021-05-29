@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import {NodeEnvConsts} from './config.validation';
+import {GcpConfig, LineConfig} from './config.types';
 
 @Injectable()
 export class CustConfigService {
@@ -28,5 +29,16 @@ export class CustConfigService {
             accessToken: this.configService.get<string>('LINE_CHANNEL_ACCESS_TOKEN'),
             secret     : this.configService.get<string>('LINE_CHANNEL_SECRET'),
         };
+    }
+
+    get getGcpConfig(): GcpConfig {
+        return {
+            clientId: this.configService.get<string>('GCP_CLIENT_ID'),
+            secret  : this.configService.get<string>('GCP_CLIENT_SECRET'),
+        };
+    }
+
+    get getStorageBucketName(): string {
+        return this.configService.get<string>('GCP_STORAGE_BUCKET_NAME');
     }
 }

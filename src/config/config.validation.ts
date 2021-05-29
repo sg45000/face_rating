@@ -19,6 +19,18 @@ class EnvironmentVariables {
 
     @IsString()
     LINE_CHANNEL_SECRET: string;
+
+    @IsString()
+    GCP_CLIENT_ID: string;
+
+    @IsString()
+    GCP_CLIENT_SECRET: string;
+
+    @IsString()
+    GOOGLE_APPLICATION_CREDENTIALS: string;
+
+    @IsString()
+    GCP_STORAGE_BUCKET_NAME: string;
 }
 
 export const validate = (config: Record<string, unknown>): EnvironmentVariables => {

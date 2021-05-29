@@ -8,12 +8,14 @@ import {CustConfigModule} from './config/config.module';
 import {LoggerModule} from './logger/logger.module';
 import {AccessLogger} from './middleware/access-logger.middleware';
 import {APP_PIPE} from '@nestjs/core';
+import {TestModule} from './test/test.module';
 
 @Module({
     imports: [
         CustConfigModule,
         LoggerModule,
         WebhookModule,
+        TestModule,
     ],
     controllers: [AppController],
     providers  : [

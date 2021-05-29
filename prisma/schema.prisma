@@ -26,3 +26,11 @@ model RandomReplies {
   updatedAt DateTime @updatedAt @default(now()) @map(name: "updated_at")
   @@map(name: "random_replies")
 }
+
+model PostImages {
+  id         Int     @default(autoincrement()) @id
+  data      String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @default(now()) @map(name: "updated_at")
+  @@map(name: "post_images")
+}
