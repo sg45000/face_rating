@@ -32,6 +32,7 @@ export class CloudStorageService {
         this.custLogger.log('start put file.');
         try {
             await this.myBucket.file(fileName).save(data);
+            this.custLogger.log('succeed put file.');
         } catch (err) {
             this.custLogger.error(JSON.stringify(err));
             throw new Error();
@@ -44,6 +45,7 @@ export class CloudStorageService {
      */
     async generateReadSignedUrl(filePath: string): Promise<string> {
         // Get a v4 signed URL for reading the file
+        this.custLogger.log('start generating read signed url/');
         const [url] = await this.myBucket
             .file(filePath)
             .getSignedUrl({

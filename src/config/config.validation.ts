@@ -11,9 +11,6 @@ class EnvironmentVariables {
     @IsEnum(NodeEnvConsts)
     NODE_ENV: NodeEnvConsts;
 
-    @IsNumber()
-    PORT: number;
-
     @IsString()
     LINE_CHANNEL_ACCESS_TOKEN: string;
 
