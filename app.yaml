@@ -1,0 +1,10 @@
+env: standard # スタンダード環境（省略可）
+runtime: nodejs14 # Node.js 14を使う
+instance_class: F1
+automatic_scaling:
+  min_instances: 0 # 動かしてないときはインスタンスを0にする
+  min_pending_latency: 3000ms
+  max_pending_latency: automatic
+  max_instances: 1
+includes:
+  - secret.yaml

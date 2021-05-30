@@ -2,9 +2,7 @@ import {Injectable, ServiceUnavailableException} from '@nestjs/common';
 import {WebhookBaseService} from './webhook-base.service';
 import {PostbackEvent} from '@line/bot-sdk/lib/types';
 import {FollowEvent, MessageEvent} from '@line/bot-sdk';
-import {RandomReplyRepository} from '../database/postgresql/repositories/random-reply.repository';
 import {LineClientBaseService} from '../line-client/line-client-base.service';
-import {PostImageRepository} from '../database/postgresql/repositories/post-image.repository';
 import {VisionClientService} from '../vision-client/vision-client.service';
 import {VisionResponseMapper} from '../mappers/gcp/vision-response.mapper';
 import {ImageProcessorService} from '../image-processor/image-processor.service';
@@ -18,9 +16,7 @@ import {IFaceAnnotation} from '../types/types';
 @Injectable()
 export class WebhookService extends WebhookBaseService {
     constructor(
-        private readonly randomReplyRepository: RandomReplyRepository,
         private readonly lineClient: LineClientBaseService,
-        private readonly postImageRepository: PostImageRepository,
         private readonly visionClientService: VisionClientService,
         private readonly imageProcessorService: ImageProcessorService,
         private readonly cloudStorageService: CloudStorageService,
@@ -33,23 +29,6 @@ export class WebhookService extends WebhookBaseService {
     async postback(event: PostbackEvent): Promise<void> {
         // fixme
         throw new ServiceUnavailableException();
-        // const params = plainToClass(PostBackData, JSON.parse(event.postback.data));
-        //
-        // await this.lineService.pushMessage(process.env.OWNER_ID, TextMessage(params.answer));
-        //
-        // if(params.next_id) {
-        //     const question = await this.questionsService.findOneByPrimaryId(params.next_id);
-        //     await this.lineService.replyMessage(
-        //         webhookEvents.events[0].replyToken,
-        //         customMessage(
-        //             question.title,
-        //             question.image_url,
-        //             question.question_choices.map(q => q.choice_text),
-        //             question.question_choices.map(q => q.next_question_id)
-        //         ));
-        // } else {
-        //     await this.lineService.replyMessage(webhookEvents.events[0].replyToken, textMessage('ありがとなすー^^'));
-        // }
     }
 
     /**
@@ -60,17 +39,18 @@ export class WebhookService extends WebhookBaseService {
         // fixme: 切り分ける
         switch (event.message.type) {
         case 'text':
-            const randomMessages = await this.randomReplyRepository.findAll();
-            if (randomMessages.length > 0) {
-                const index = Math.floor(Math.random() * (randomMessages.length));
-                await this.lineClient.replyMessage(
-                    event.replyToken,
-                    {
-                        type: 'text',
-                        text: randomMessages[index].msg
-                    }
-                );
-            }
+            throw new ServiceUnavailableException();
+            //     const randomMessages = await this.randomReplyRepository.findAll();
+            //     if (randomMessages.length > 0) {
+            //         const index = Math.floor(Math.random() * (randomMessages.length));
+            //         await this.lineClient.replyMessage(
+            //             event.replyToken,
+            //             {
+            //                 type: 'text',
+            //                 text: randomMessages[index].msg
+            //             }
+            //         );
+            //     }
             break;
 
         case 'image':

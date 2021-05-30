@@ -41,4 +41,8 @@ export class CustConfigService {
     get getStorageBucketName(): string {
         return this.configService.get<string>('GCP_STORAGE_BUCKET_NAME');
     }
+
+    get getGcpPkeyName(): string {
+        return this.configService.get<string>('GCP_PKEY');
+    }
 }

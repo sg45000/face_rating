@@ -37,3 +37,4 @@ env
 .env
 ngrok
 tmp
+secret.yaml

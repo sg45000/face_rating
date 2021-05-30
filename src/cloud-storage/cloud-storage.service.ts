@@ -2,7 +2,6 @@ import {Injectable} from '@nestjs/common';
 import {Bucket, Storage} from '@google-cloud/storage';
 import {CustConfigService} from '../config/config.service';
 import {CustLogger} from '../logger/logger.service';
-import * as fs from 'fs';
 import {join} from 'path';
 
 @Injectable()
@@ -13,12 +12,14 @@ export class CloudStorageService {
         private readonly custConfig: CustConfigService,
         private readonly custLogger: CustLogger,
     ) {
-        this.client = new Storage(
-            { // fixme 認証わからん
+        const option = this.custConfig.isDevelopment 
+            ? {
                 projectId  : 'wedding-313300',
-                keyFilename: join(__dirname, '..', '..', 'gcp_pkey.json'),
+                keyFilename: join(__dirname, '..', '..', 'env', this.custConfig.getGcpPkeyName),
             }
-        );
+            : undefined;
+
+        this.client = new Storage(option);
         this.myBucket = this.client.bucket(this.custConfig.getStorageBucketName);
     }
 

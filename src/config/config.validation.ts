@@ -27,7 +27,7 @@ class EnvironmentVariables {
     GCP_CLIENT_SECRET: string;
 
     @IsString()
-    GOOGLE_APPLICATION_CREDENTIALS: string;
+    GCP_PKEY: string;
 
     @IsString()
     GCP_STORAGE_BUCKET_NAME: string;
