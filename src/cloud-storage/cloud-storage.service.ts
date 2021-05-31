@@ -45,16 +45,20 @@ export class CloudStorageService {
      */
     async generateReadSignedUrl(filePath: string): Promise<string> {
         // Get a v4 signed URL for reading the file
-        this.custLogger.log('start generating read signed url/');
-        const [url] = await this.myBucket
-            .file(filePath)
-            .getSignedUrl({
-                version: 'v4',
-                action : 'read',
-                expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-            });
-
-        this.custLogger.log(`Generated GET signed URL: ${url}`);
-        return url;
+        this.custLogger.log('start generating read signed url.');
+        try {
+            const [url] = await this.myBucket
+                .file(filePath)
+                .getSignedUrl({
+                    version: 'v4',
+                    action : 'read',
+                    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+                });
+            this.custLogger.log(`Generated GET signed URL: ${url}`);
+            return url;
+        } catch (e) {
+            this.custLogger.error(JSON.stringify(e));
+            throw new Error('failed to generating read signed url.');
+        }
     }
 }
