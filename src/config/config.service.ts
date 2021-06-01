@@ -45,4 +45,8 @@ export class CustConfigService {
     get getGcpPkeyName(): string {
         return this.configService.get<string>('GCP_PKEY');
     }
+
+    get getServiceAccountName(): string {
+        return this.configService.get<string>('SERVICE_ACCOUNT_NAME');
+    }
 }

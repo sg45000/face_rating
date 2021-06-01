@@ -65,9 +65,9 @@ export class WebhookService extends WebhookBaseService {
                 const trimmingImgData = await this.imageProcessorService.trim(imgData, annotation.boundingPoly.vertices!);
                 const fileName = `trim/${UUID.v4()}.png`;
                 await this.cloudStorageService.putFileByStream(trimmingImgData, fileName);
-                const signedUrl = await this.cloudStorageService.generateReadSignedUrl(fileName);
+                const imageUrl = await this.cloudStorageService.getReadSignedUrl(fileName);
                 const response = VisionResponseMapper.rateFacialExpression(annotation);
-                flexBubbleList.push(new FlexMessageGenerator(response, signedUrl).genAnnotationMessage);
+                flexBubbleList.push(new FlexMessageGenerator(response, imageUrl).genAnnotationMessage);
             }));
 
             await this.lineClient.replyMessage(event.replyToken, new CarouselMessage(flexBubbleList).genCarouselTemplate());

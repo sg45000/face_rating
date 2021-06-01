@@ -3,6 +3,8 @@ import {Bucket, Storage} from '@google-cloud/storage';
 import {CustConfigService} from '../config/config.service';
 import {CustLogger} from '../logger/logger.service';
 import {join} from 'path';
+import * as crypto from 'crypto';
+import {V4Signature} from './model/v4Signature';
 
 @Injectable()
 export class CloudStorageService {
@@ -39,14 +41,11 @@ export class CloudStorageService {
         }
     }
 
-    /**
-     *
-     * @param filePath
-     */
-    async generateReadSignedUrl(filePath: string): Promise<string> {
+    async getReadSignedUrl(filePath: string): Promise<string> {
         // Get a v4 signed URL for reading the file
         this.custLogger.log('start generating read signed url.');
         try {
+            this.custLogger.log(JSON.stringify(await this.client.getServiceAccount()));
             const [url] = await this.myBucket
                 .file(filePath)
                 .getSignedUrl({
@@ -60,5 +59,14 @@ export class CloudStorageService {
             this.custLogger.error(JSON.stringify(e));
             throw new Error('failed to generating read signed url.');
         }
+    }
+
+    /**
+     *
+     * @param filePath
+     */
+    generateReadSignedUrl(filePath: string): string {
+        const v4Sign = new V4Signature(filePath, this.custConfig.getServiceAccountName);
+        return  v4Sign.generateSignedUrl;
     }
 }

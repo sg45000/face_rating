@@ -1,4 +1,4 @@
-import {Controller, Get} from '@nestjs/common';
+import {Controller, Get, Query, UsePipes, ValidationPipe} from '@nestjs/common';
 import {ImageProcessorService} from '../image-processor/image-processor.service';
 import {CloudStorageService} from '../cloud-storage/cloud-storage.service';
 import * as fs from 'fs';
@@ -21,5 +21,13 @@ export class TestController {
     async testPushStorage() {
         const data = await fs.readFileSync(join(__dirname, '..', 'tmp', 'test.jpg'));
         await this.cloudStorageService.putFileByStream(data, 'test1.jpg');
+    }
+
+    @Get('signature')
+    @UsePipes(new ValidationPipe({transform: true}))
+    testSignature(@Query() query: {filePath: string}): string {
+        const url = this.cloudStorageService.generateReadSignedUrl(query.filePath);
+        console.log(url);
+        return url;
     }
 }

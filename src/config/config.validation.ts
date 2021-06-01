@@ -28,6 +28,9 @@ class EnvironmentVariables {
 
     @IsString()
     GCP_STORAGE_BUCKET_NAME: string;
+
+    @IsString()
+    SERVICE_ACCOUNT_NAME: string
 }
 
 export const validate = (config: Record<string, unknown>): EnvironmentVariables => {
