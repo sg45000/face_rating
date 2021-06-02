@@ -1,5 +1,5 @@
 import {plainToClass} from 'class-transformer';
-import {IsEnum, IsNumber, IsString, validateSync} from 'class-validator';
+import {IsEnum, IsString, validateSync} from 'class-validator';
 
 export class NodeEnvConsts {
     static Development = 'development';
@@ -18,19 +18,12 @@ class EnvironmentVariables {
     LINE_CHANNEL_SECRET: string;
 
     @IsString()
-    GCP_CLIENT_ID: string;
+    GCP_STORAGE_BUCKET_NAME: string;
+}
 
-    @IsString()
-    GCP_CLIENT_SECRET: string;
-
+class DevEnvironmentVariables extends EnvironmentVariables {
     @IsString()
     GCP_PKEY: string;
-
-    @IsString()
-    GCP_STORAGE_BUCKET_NAME: string;
-
-    @IsString()
-    SERVICE_ACCOUNT_NAME: string
 
     @IsString()
     GCP_PROJECT_ID: string;
@@ -38,7 +31,7 @@ class EnvironmentVariables {
 
 export const validate = (config: Record<string, unknown>): EnvironmentVariables => {
     const validatedConfig = plainToClass(
-        EnvironmentVariables,
+        process.env.NODE_ENV === NodeEnvConsts.Development ? DevEnvironmentVariables : EnvironmentVariables,
         config,
         {enableImplicitConversion: true},
     );
