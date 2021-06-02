@@ -23,11 +23,4 @@ export class TestController {
         await this.cloudStorageService.putFileByStream(data, 'test1.jpg');
     }
 
-    @Get('signature')
-    @UsePipes(new ValidationPipe({transform: true}))
-    testSignature(@Query() query: {filePath: string}): string {
-        const url = this.cloudStorageService.generateReadSignedUrl(query.filePath);
-        console.log(url);
-        return url;
-    }
 }

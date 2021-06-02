@@ -3,8 +3,6 @@ import {Bucket, Storage} from '@google-cloud/storage';
 import {CustConfigService} from '../config/config.service';
 import {CustLogger} from '../logger/logger.service';
 import {join} from 'path';
-import * as crypto from 'crypto';
-import {V4Signature} from './model/v4Signature';
 
 @Injectable()
 export class CloudStorageService {
@@ -16,7 +14,7 @@ export class CloudStorageService {
     ) {
         const option = this.custConfig.isDevelopment 
             ? {
-                projectId  : 'wedding-313300',
+                projectId  : this.custConfig.getGcpProjectId,
                 keyFilename: join(__dirname, '..', '..', 'env', this.custConfig.getGcpPkeyName),
             }
             : undefined;
@@ -45,7 +43,6 @@ export class CloudStorageService {
         // Get a v4 signed URL for reading the file
         this.custLogger.log('start generating read signed url.');
         try {
-            this.custLogger.log(JSON.stringify(await this.client.getServiceAccount()));
             const [url] = await this.myBucket
                 .file(filePath)
                 .getSignedUrl({
@@ -53,20 +50,11 @@ export class CloudStorageService {
                     action : 'read',
                     expires: Date.now() + 15 * 60 * 1000, // 15 minutes
                 });
-            this.custLogger.log(`Generated GET signed URL: ${url}`);
+            this.custLogger.log('Generated GET signed URL.');
             return url;
         } catch (e) {
             this.custLogger.error(JSON.stringify(e));
             throw new Error('failed to generating read signed url.');
         }
-    }
-
-    /**
-     *
-     * @param filePath
-     */
-    generateReadSignedUrl(filePath: string): string {
-        const v4Sign = new V4Signature(filePath, this.custConfig.getServiceAccountName);
-        return  v4Sign.generateSignedUrl;
     }
 }
