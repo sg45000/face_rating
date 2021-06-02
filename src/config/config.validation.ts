@@ -31,6 +31,9 @@ class EnvironmentVariables {
 
     @IsString()
     SERVICE_ACCOUNT_NAME: string
+
+    @IsString()
+    GCP_PROJECT_ID: string;
 }
 
 export const validate = (config: Record<string, unknown>): EnvironmentVariables => {
