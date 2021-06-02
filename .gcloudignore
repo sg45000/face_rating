@@ -18,3 +18,4 @@ dist
 yarn-error.log
 # Node.js dependencies:
 node_modules/
+tmp
