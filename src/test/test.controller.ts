@@ -1,4 +1,4 @@
-import {Controller, Get, Query, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Controller, Get} from '@nestjs/common';
 import {ImageProcessorService} from '../image-processor/image-processor.service';
 import {CloudStorageService} from '../cloud-storage/cloud-storage.service';
 import * as fs from 'fs';

@@ -54,7 +54,7 @@ export class WebhookService extends WebhookBaseService {
             break;
 
         case 'image':
-            const imgData = await this.lineClient.getImage(event.message.id);
+            const imgData = await this.lineClient.getImageByMessageId(event.message.id);
             const annotateImageRes = await this.visionClientService.annotateImage(imgData.toString('base64'));
             if(!annotateImageRes.faceAnnotations.length) {
                 // fixme 人を検知しなかったときの処理

@@ -16,15 +16,20 @@ export class LineClientBaseService {
         });
     }
 
+    /**
+     * リプライメッセージを送る
+     * @param replyToken
+     * @param messageTemplate
+     */
     async replyMessage(replyToken: string, messageTemplate: LineTypes.Message | LineTypes.Message[] | LineTypes.FlexMessage): Promise<LineTypes.MessageAPIResponseBase> {
         return await this.client.replyMessage(replyToken, messageTemplate);
     }
 
     /**
-     *
+     * LINEから画像データを取得する
      * @param messageId
      */
-    async getImage(messageId: string): Promise<Buffer> {
+    async getImageByMessageId(messageId: string): Promise<Buffer> {
         return new Promise(async (resolve, reject) =>{
             const data: Buffer[] = [];
             const stream = await this.client.getMessageContent(messageId);
@@ -40,6 +45,11 @@ export class LineClientBaseService {
         });
     }
 
+    /**
+     * pushメッセージを送る
+     * @param user_id
+     * @param messageTemplate
+     */
     async pushMessage(user_id :string, messageTemplate: LineTypes.Message | LineTypes.Message[] | LineTypes.FlexMessage) {
         try {
             await this.client.pushMessage(user_id, messageTemplate);

@@ -10,6 +10,12 @@ export class ImageProcessorService {
         private readonly custLogger: CustLogger,
     ) {
     }
+
+    /**
+     * imgファイルをトリミングする
+     * @param data
+     * @param vertexes
+     */
     async trim(data: Buffer, vertexes: NonNullable<IVertex[]>): Promise<Buffer> {
         const region = this.getRegion(vertexes);
         console.log(JSON.stringify(region));
@@ -31,6 +37,11 @@ export class ImageProcessorService {
 
     }
 
+    /**
+     * regionを取得する
+     * @param vertexes
+     * @private
+     */
     private getRegion(vertexes: NonNullable<IVertex>[]): Region {
         const xList = vertexes.map(v => v.x);
         const yList = vertexes.map(v => v.y);

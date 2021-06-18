@@ -14,6 +14,10 @@ export interface FacialExpressionRating {
 
 export class VisionResponseMapper {
 
+    /**
+     * 表情分析結果を評価する
+     * @param faceAnnotation
+     */
     static rateFacialExpression(faceAnnotation: IFaceAnnotation): FacialExpressionRating {
         const detectionConfidence = faceAnnotation.detectionConfidence;
         return {
@@ -27,6 +31,12 @@ export class VisionResponseMapper {
         };
     }
 
+    /**
+     * 表情分析結果の重み付けをする
+     * @param likelihood
+     * @param detectionConfidence
+     * @private
+     */
     private static weightingLikelihood(likelihood: LikelihoodType, detectionConfidence: number): number {
         if(typeof likelihood !== 'string') {
             //fixme エラー内容

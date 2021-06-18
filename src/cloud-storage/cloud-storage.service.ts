@@ -24,7 +24,7 @@ export class CloudStorageService {
     }
 
     /**
-     *
+     * ファイルをストレージに保存する
      * @param data
      * @param fileName
      */
@@ -39,6 +39,10 @@ export class CloudStorageService {
         }
     }
 
+    /**
+     * 署名付きURLを取得する
+     * @param filePath
+     */
     async getReadSignedUrl(filePath: string): Promise<string> {
         // Get a v4 signed URL for reading the file
         this.custLogger.log('start generating read signed url.');

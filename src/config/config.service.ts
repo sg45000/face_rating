@@ -39,10 +39,6 @@ export class CustConfigService {
         return this.configService.get<string>('GCP_PKEY');
     }
 
-    get getServiceAccountName(): string {
-        return this.configService.get<string>('SERVICE_ACCOUNT_NAME');
-    }
-
     get getGcpProjectId(): string {
         return this.configService.get<string>('GCP_PROJECT_ID');
     }

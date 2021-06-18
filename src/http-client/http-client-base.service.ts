@@ -8,7 +8,7 @@ export abstract class HttpClientBaseService {
     }
 
     /**
-     *
+     * getリクエスト
      * @param url
      * @param config
      */
@@ -17,7 +17,7 @@ export abstract class HttpClientBaseService {
     }
 
     /**
-     *
+     * postリクエスト
      * @param url
      * @param data
      * @param config
