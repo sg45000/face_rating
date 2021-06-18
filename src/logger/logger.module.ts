@@ -1,6 +1,7 @@
-import {Module} from '@nestjs/common';
+import {Global, Module} from '@nestjs/common';
 import {CustLogger} from './logger.service';
 
+@Global()
 @Module({
     controllers: [],
     providers  : [CustLogger],
