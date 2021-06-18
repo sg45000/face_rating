@@ -12,6 +12,7 @@ import {FlexMessageGenerator} from '../templates/line/flexMessageGenerator';
 import {FlexBubble} from '@line/bot-sdk/dist/types';
 import {CarouselMessage} from '../templates/line/carouselMessage';
 import {IFaceAnnotation} from '../types/types';
+import {TextMessageGenerator} from '../templates/line/textMessageGenerator';
 
 @Injectable()
 export class WebhookService extends WebhookBaseService {
@@ -57,8 +58,8 @@ export class WebhookService extends WebhookBaseService {
             const imgData = await this.lineClient.getImageByMessageId(event.message.id);
             const annotateImageRes = await this.visionClientService.annotateImage(imgData.toString('base64'));
             if(!annotateImageRes.faceAnnotations.length) {
-                // fixme 人を検知しなかったときの処理
-                throw new Error();
+                await this.lineClient.replyMessage(event.replyToken, new TextMessageGenerator('人物を検知できませんでした。').getTextMessageTemplate());
+                return;
             }
             const flexBubbleList: FlexBubble[] = [];
             await Promise.all(annotateImageRes.faceAnnotations.map(async (annotation: IFaceAnnotation) => {
