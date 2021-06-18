@@ -2,10 +2,15 @@ import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import {NodeEnvConsts} from './config.validation';
 import {LineConfig} from './config.types';
+import {join} from 'path';
 
 @Injectable()
 export class CustConfigService {
     constructor(private readonly configService: ConfigService) {
+        // 環境変数の初期値設定
+        if(this.isDevelopment) {
+            process.env.GOOGLE_APPLICATION_CREDENTIALS = join(__dirname, '..', '..', 'env', this.getGcpPkeyName);
+        }
     }
 
     get getNodeEnv(): string {
