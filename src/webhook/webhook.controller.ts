@@ -10,7 +10,7 @@ export class WebhookController {
     }
 
     /**
-     *
+     * LINEからのwebhookを処理するコントローラー
      * @param req
      */
     @Post('/')
